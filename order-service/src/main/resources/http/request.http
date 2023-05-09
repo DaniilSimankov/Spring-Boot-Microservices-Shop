@@ -7,6 +7,11 @@ Content-Type: application/json
       "skuCode": "iphone_13",
       "price": 1200,
       "quantity": 1
+    },
+    {
+      "skuCode": "iphone_13_red",
+      "price": 1200,
+      "quantity": 0
     }
   ]
 }
