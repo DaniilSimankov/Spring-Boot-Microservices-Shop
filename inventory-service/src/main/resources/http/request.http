@@ -1,0 +1,7 @@
+### true
+
+GET localhost:8082/api/inventory/iphone_13
+
+### false
+
+GET localhost:8082/api/inventory/iphone_13
