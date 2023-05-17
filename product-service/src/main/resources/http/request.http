@@ -1,5 +1,6 @@
 POST localhost:8080/api/product
 Content-Type: application/json
+Authorization: Bearer
 
 {
   "name": "Iphone 13",
