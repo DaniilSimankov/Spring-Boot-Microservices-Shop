@@ -11,6 +11,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import ru.orderservice.dto.InventoryResponse;
 import ru.orderservice.dto.OrderLineItemsDto;
 import ru.orderservice.dto.OrderRequest;
+import ru.orderservice.event.OrderPlacedEvent;
 import ru.orderservice.model.Order;
 import ru.orderservice.model.OrderLineItems;
 import ru.orderservice.repository.OrderRepository;
@@ -44,6 +45,8 @@ public class OrderService {
                 .map(OrderLineItems::getSkuCode)
                 .toList();
 
+        log.info("Calling inventory service");
+
         //Call inventory service, and place order if product is in stock
         Observation inventoryServiceObservation = Observation.createNotStarted("inventory-service-lookup", this.observationRegistry);
         inventoryServiceObservation.lowCardinalityKeyValue("call", "inventory-service");
@@ -62,7 +65,7 @@ public class OrderService {
 
             if (Boolean.TRUE.equals(allProductsInStock)) {
                 orderRepository.save(order);
-//                applicationEventPublisher.publishEvent(new OrderPlacedEvents);
+                applicationEventPublisher.publishEvent(new OrderPlacedEvent(this, order.getOrderNumber()));
                 return "Order place successfully";
 
             } else {
